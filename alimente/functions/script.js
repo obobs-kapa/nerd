@@ -3,22 +3,22 @@ function isMobile() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Exemplo de uso
-if (isMobile()) {
- var personImage = document.getElementById('person-image');
+// Obter as referências dos elementos
+var personImage = document.getElementById('person-image');
 var foodImage = document.getElementById('food-image');
 var statusText = document.getElementById('status-text');
 var isHungry = true;
 
-// Adicionar eventos de toque aos elementos
-personImage.addEventListener('touchstart', touchStart);
-foodImage.addEventListener('touchstart', touchStart);
-personImage.addEventListener('touchmove', touchMove);
-personImage.addEventListener('touchend', touchEnd);
-
-// Variáveis para rastrear o estado do toque
-var touchStartX;
-var touchStartY;
+if (isMobile()) {
+  // Adicionar eventos de toque aos elementos
+  personImage.addEventListener('touchstart', touchStart);
+  personImage.addEventListener('touchmove', touchMove);
+  personImage.addEventListener('touchend', touchEnd);
+} else {
+  // Adicionar eventos de arrastar e soltar aos elementos
+  personImage.addEventListener('dragover', allowDrop);
+  personImage.addEventListener('drop', drop);
+}
 
 // Função de início de toque
 function touchStart(event) {
@@ -45,7 +45,7 @@ function touchEnd(event) {
     touchEndY <= personImage.offsetTop + personImage.offsetHeight
   ) {
     if (isHungry) {
-      personImage.src = 'images/erguida.png';
+      personImage.src = 'person-happy.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       foodImage.style.display = 'none';
       isHungry = false;
@@ -56,16 +56,6 @@ function touchEnd(event) {
     statusText.innerHTML = 'Toque na pessoa para alimentá-la.';
   }
 }
-
-} else {
-  var personImage = document.getElementById('person-image');
-var foodImage = document.getElementById('food-image');
-var statusText = document.getElementById('status-text');
-var isHungry = true;
-
-// Adicionar eventos de arrastar e soltar aos elementos
-personImage.addEventListener('dragover', allowDrop);
-personImage.addEventListener('drop', drop);
 
 // Função de manipulação de permitir soltar
 function allowDrop(event) {
@@ -94,7 +84,7 @@ function drop(event) {
     dropY <= personImageY + personImageHeight
   ) {
     if (isHungry) {
-      personImage.src = 'images/erguida.png';
+      personImage.src = 'erguida.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       food.style.display = 'none';
       isHungry = false;
@@ -104,5 +94,4 @@ function drop(event) {
   } else {
     statusText.innerHTML = 'Arraste a comida até a pessoa para alimentá-la.';
   }
-}
 }
