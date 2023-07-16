@@ -27,6 +27,13 @@ html, body {
     height: 500px;
     align-self: flex-start; /* Alinha a imagem 1 no canto esquerdo */
 }
+
+#person-image,
+#food-image {
+  position: absolute;
+  touch-action: none;
+  user-select: none;
+}
   
 #status-text {
     margin-top: 20px;
