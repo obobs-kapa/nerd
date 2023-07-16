@@ -3,118 +3,106 @@ function isMobile() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Obter as referências dos elementos
-var personImage = document.getElementById('person-image');
+// Exemplo de uso
+if (isMobile()) {
+ var personImage = document.getElementById('person-image');
 var foodImage = document.getElementById('food-image');
 var statusText = document.getElementById('status-text');
 var isHungry = true;
 
-var isDragging = false;
-var touchOffsetX;
-var touchOffsetY;
+// Adicionar eventos de toque aos elementos
+personImage.addEventListener('touchstart', touchStart);
+foodImage.addEventListener('touchstart', touchStart);
+personImage.addEventListener('touchmove', touchMove);
+personImage.addEventListener('touchend', touchEnd);
 
-// Adicionar eventos de toque ou arrastar e soltar aos elementos
-if (isMobile()) {
-  foodImage.addEventListener('touchstart', touchStart);
-  foodImage.addEventListener('touchmove', touchMove);
-  foodImage.addEventListener('touchend', touchEnd);
-} else {
-  foodImage.addEventListener('mousedown', dragStart);
-  window.addEventListener('mousemove', dragMove);
-  window.addEventListener('mouseup', dragEnd);
-}
+// Variáveis para rastrear o estado do toque
+var touchStartX;
+var touchStartY;
 
-// Função de início de toque ou arrastar
+// Função de início de toque
 function touchStart(event) {
-  event.preventDefault();
-
   var touch = event.touches[0];
-  touchOffsetX = touch.clientX - foodImage.offsetLeft;
-  touchOffsetY = touch.clientY - foodImage.offsetTop;
-  
-  isDragging = true;
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
 }
 
-// Função de movimento de toque ou arrastar
+// Função de movimento de toque
 function touchMove(event) {
   event.preventDefault();
-
-  if (isDragging) {
-    var touch = event.touches[0];
-    var x = touch.clientX - touchOffsetX;
-    var y = touch.clientY - touchOffsetY;
-    
-    moveFoodImage(x, y);
-  }
 }
 
-// Função de finalização de toque ou arrastar
+// Função de finalização de toque
 function touchEnd(event) {
-  event.preventDefault();
-
-  if (isDragging) {
-    isDragging = false;
-    
-    checkFeedPerson();
-  }
-}
-
-// Função de início de arrastar
-function dragStart(event) {
-  event.preventDefault();
-  
-  touchOffsetX = event.clientX - foodImage.offsetLeft;
-  touchOffsetY = event.clientY - foodImage.offsetTop;
-  
-  isDragging = true;
-}
-
-// Função de movimento de arrastar
-function dragMove(event) {
-  event.preventDefault();
-  
-  if (isDragging) {
-    var x = event.clientX - touchOffsetX;
-    var y = event.clientY - touchOffsetY;
-    
-    moveFoodImage(x, y);
-  }
-}
-
-// Função de finalização de arrastar
-function dragEnd(event) {
-  event.preventDefault();
-  
-  if (isDragging) {
-    isDragging = false;
-    
-    checkFeedPerson();
-  }
-}
-
-// Função para mover a imagem do hambúrguer
-function moveFoodImage(x, y) {
-  foodImage.style.left = x + 'px';
-  foodImage.style.top = y + 'px';
-}
-
-// Função para verificar se a pessoa foi alimentada
-function checkFeedPerson() {
-  var personRect = personImage.getBoundingClientRect();
-  var foodRect = foodImage.getBoundingClientRect();
+  var touch = event.changedTouches[0];
+  var touchEndX = touch.clientX;
+  var touchEndY = touch.clientY;
 
   if (
-    foodRect.left >= personRect.left &&
-    foodRect.right <= personRect.right &&
-    foodRect.top >= personRect.top &&
-    foodRect.bottom <= personRect.bottom &&
-    isHungry
+    touchEndX >= personImage.offsetLeft &&
+    touchEndX <= personImage.offsetLeft + personImage.offsetWidth &&
+    touchEndY >= personImage.offsetTop &&
+    touchEndY <= personImage.offsetTop + personImage.offsetHeight
   ) {
-    personImage.src = 'person-happy.png';
-    statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
-    foodImage.style.display = 'none';
-    isHungry = false;
+    if (isHungry) {
+      personImage.src = 'person-happy.png';
+      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
+      foodImage.style.display = 'none';
+      isHungry = false;
+    } else {
+      statusText.innerHTML = 'A pessoa já está alimentada.';
+    }
   } else {
-    statusText.innerHTML = 'Arraste o hambúrguer até a pessoa para alimentá-la.';
+    statusText.innerHTML = 'Toque na pessoa para alimentá-la.';
   }
+}
+
+} else {
+  var personImage = document.getElementById('person-image');
+var foodImage = document.getElementById('food-image');
+var statusText = document.getElementById('status-text');
+var isHungry = true;
+
+// Adicionar eventos de arrastar e soltar aos elementos
+personImage.addEventListener('dragover', allowDrop);
+personImage.addEventListener('drop', drop);
+
+// Função de manipulação de permitir soltar
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+// Função de manipulação de soltar
+function drop(event) {
+  event.preventDefault();
+  var foodId = event.dataTransfer.getData('text/plain');
+  var food = document.getElementById(foodId);
+
+  var rect = personImage.getBoundingClientRect();
+  var personImageX = rect.left;
+  var personImageY = rect.top;
+  var personImageWidth = rect.width;
+  var personImageHeight = rect.height;
+
+  var dropX = event.clientX;
+  var dropY = event.clientY;
+
+  if (
+    dropX >= personImageX &&
+    dropX <= personImageX + personImageWidth &&
+    dropY >= personImageY &&
+    dropY <= personImageY + personImageHeight
+  ) {
+    if (isHungry) {
+      personImage.src = 'erguida.png';
+      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
+      food.style.display = 'none';
+      isHungry = false;
+    } else {
+      statusText.innerHTML = 'A pessoa já está alimentada.';
+    }
+  } else {
+    statusText.innerHTML = 'Arraste a comida até a pessoa para alimentá-la.';
+  }
+}
 }
