@@ -9,12 +9,9 @@ var foodImage = document.getElementById('food-image');
 var statusText = document.getElementById('status-text');
 var isHungry = true;
 
-// Variáveis para rastrear o estado do arrastar
 var isDragging = false;
-var touchStartX;
-var touchStartY;
-var offsetX;
-var offsetY;
+var touchOffsetX;
+var touchOffsetY;
 
 // Adicionar eventos de toque ou arrastar e soltar aos elementos
 if (isMobile()) {
@@ -22,9 +19,9 @@ if (isMobile()) {
   foodImage.addEventListener('touchmove', touchMove);
   foodImage.addEventListener('touchend', touchEnd);
 } else {
-  foodImage.addEventListener('dragstart', dragStart);
-  personImage.addEventListener('dragover', allowDrop);
-  personImage.addEventListener('drop', drop);
+  foodImage.addEventListener('mousedown', dragStart);
+  window.addEventListener('mousemove', dragMove);
+  window.addEventListener('mouseup', dragEnd);
 }
 
 // Função de início de toque ou arrastar
@@ -32,10 +29,8 @@ function touchStart(event) {
   event.preventDefault();
 
   var touch = event.touches[0];
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-  offsetX = touch.clientX - foodImage.getBoundingClientRect().left;
-  offsetY = touch.clientY - foodImage.getBoundingClientRect().top;
+  touchOffsetX = touch.clientX - foodImage.offsetLeft;
+  touchOffsetY = touch.clientY - foodImage.offsetTop;
   
   isDragging = true;
 }
@@ -46,11 +41,10 @@ function touchMove(event) {
 
   if (isDragging) {
     var touch = event.touches[0];
-    var x = touch.clientX - offsetX;
-    var y = touch.clientY - offsetY;
+    var x = touch.clientX - touchOffsetX;
+    var y = touch.clientY - touchOffsetY;
     
-    foodImage.style.left = x + 'px';
-    foodImage.style.top = y + 'px';
+    moveFoodImage(x, y);
   }
 }
 
@@ -60,66 +54,66 @@ function touchEnd(event) {
 
   if (isDragging) {
     isDragging = false;
-
-    var personRect = personImage.getBoundingClientRect();
-    var foodRect = foodImage.getBoundingClientRect();
-
-    if (
-      foodRect.left >= personRect.left &&
-      foodRect.right <= personRect.right &&
-      foodRect.top >= personRect.top &&
-      foodRect.bottom <= personRect.bottom &&
-      isHungry
-    ) {
-      personImage.src = 'person-happy.png';
-      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
-      foodImage.style.display = 'none';
-      isHungry = false;
-    } else {
-      statusText.innerHTML = 'Arraste o hambúrguer até a pessoa para alimentá-la.';
-    }
+    
+    checkFeedPerson();
   }
 }
 
 // Função de início de arrastar
 function dragStart(event) {
-  event.dataTransfer.setData('text/plain', event.target.id);
+  event.preventDefault();
+  
+  touchOffsetX = event.clientX - foodImage.offsetLeft;
+  touchOffsetY = event.clientY - foodImage.offsetTop;
+  
+  isDragging = true;
 }
 
-// Função de manipulação de permitir soltar
-function allowDrop(event) {
+// Função de movimento de arrastar
+function dragMove(event) {
   event.preventDefault();
+  
+  if (isDragging) {
+    var x = event.clientX - touchOffsetX;
+    var y = event.clientY - touchOffsetY;
+    
+    moveFoodImage(x, y);
+  }
 }
 
-// Função de manipulação de soltar
-function drop(event) {
+// Função de finalização de arrastar
+function dragEnd(event) {
   event.preventDefault();
-  var foodId = event.dataTransfer.getData('text/plain');
-  var food = document.getElementById(foodId);
+  
+  if (isDragging) {
+    isDragging = false;
+    
+    checkFeedPerson();
+  }
+}
 
-  var rect = personImage.getBoundingClientRect();
-  var personImageX = rect.left;
-  var personImageY = rect.top;
-  var personImageWidth = rect.width;
-  var personImageHeight = rect.height;
+// Função para mover a imagem do hambúrguer
+function moveFoodImage(x, y) {
+  foodImage.style.left = x + 'px';
+  foodImage.style.top = y + 'px';
+}
 
-  var dropX = event.clientX;
-  var dropY = event.clientY;
+// Função para verificar se a pessoa foi alimentada
+function checkFeedPerson() {
+  var personRect = personImage.getBoundingClientRect();
+  var foodRect = foodImage.getBoundingClientRect();
 
   if (
-    dropX >= personImageX &&
-    dropX <= personImageX + personImageWidth &&
-    dropY >= personImageY &&
-    dropY <= personImageY + personImageHeight
+    foodRect.left >= personRect.left &&
+    foodRect.right <= personRect.right &&
+    foodRect.top >= personRect.top &&
+    foodRect.bottom <= personRect.bottom &&
+    isHungry
   ) {
-    if (isHungry) {
-      personImage.src = 'person-happy.png';
-      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
-      food.style.display = 'none';
-      isHungry = false;
-    } else {
-      statusText.innerHTML = 'A pessoa já está alimentada.';
-    }
+    personImage.src = 'person-happy.png';
+    statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
+    foodImage.style.display = 'none';
+    isHungry = false;
   } else {
     statusText.innerHTML = 'Arraste o hambúrguer até a pessoa para alimentá-la.';
   }
