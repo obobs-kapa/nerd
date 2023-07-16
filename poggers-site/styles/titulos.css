@@ -1,0 +1,16 @@
+h1 { /* Configurações Titulo*/
+    color: rgba(255, 255, 255, 0.81);
+    font-weight: 700;
+    line-height: 1.2;
+    font-size: 30px;
+    text-align: center;
+}
+  
+.sub-titulo { /* Configurações Sub-Titulo*/ 
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.81);
+}
+  

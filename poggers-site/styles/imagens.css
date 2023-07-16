@@ -1,0 +1,60 @@
+.image-container { /* Configurações Imagem*/
+ display: flex;
+ margin-bottom: 10px; /* Ajuste o espaçamento inferior conforme necessário */
+ margin-top: 200px;
+ margin-left: 70px; /* Ajuste o espaçamento esquerdo conforme necessário */
+}
+ 
+.image-container img { /* Configurações Tamanho Imagem*/
+ width: 200px;   
+ height: 300px;
+}
+
+.image2-container { /* Configurações Imagem*/
+ display: flex;
+ margin-bottom: -50px; /* Ajuste o espaçamento inferior conforme necessário */
+ margin-top: -310px; /* Sobe a Imagem*/
+ margin-left: 690px; /* Ajuste o espaçamento esquerdo conforme necessário */
+}
+    
+.image2-container img { /* Configurações Tamanho Imagem*/
+ width: 200px;  
+ height: 300px; /* Defina a altura desejada */
+}
+
+.image3-container { /* Configurações Imagem*/
+ display: flex;
+ margin-bottom: 10px; /* Ajuste o espaçamento inferior conforme necessário */
+ margin-top: 200px;
+ margin-left: 70px; /* Ajuste o espaçamento esquerdo conforme necessário */
+}
+       
+ .image3-container img { /* Configurações Tamanho Imagem*/
+ width: 200px;  
+ height: 300px;
+}
+   
+.image4-container { /* Configurações Imagem*/
+ display: flex;
+ margin-bottom: -50px; /* Ajuste o espaçamento inferior conforme necessário */
+ margin-top: -310px; /* Sobe a Imagem*/
+ margin-left: 690px; /* Ajuste o espaçamento esquerdo conforme necessário */
+}
+       
+.image4-container img { /* Configurações Tamanho Imagem*/
+ width: 200px;  
+ height: 300px; /* Defina a altura desejada */
+}
+   
+.image5-container { /* Configurações Imagem*/
+    display: flex;
+    margin-bottom: 10px; /* Ajuste o espaçamento inferior conforme necessário */
+    margin-top: 200px;
+    margin-left: 70px; /* Ajuste o espaçamento esquerdo conforme necessário */
+}
+
+.image5-container img { /* Configurações Tamanho Imagem*/
+width: 300px;  
+height: 400px; /* Defina a altura desejada */
+}
+      

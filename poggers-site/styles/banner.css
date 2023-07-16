@@ -1,0 +1,22 @@
+.banner { /* Banner Imagem*/
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    object-position: center top; /* Ajuste o posicionamento vertical conforme necessário */
+  }
+  
+  html, /*Mexe no Tamanho da Página?*/
+  body { 
+    margin: 0;
+    padding: 0;
+  }
+  
+  .banner-container { /* Banner Div*/
+    position: relative;
+    width: 100%;
+    height: 500px; /* Ajuste a altura do banner conforme necessário */
+    overflow: hidden;
+    margin-top: -200px;
+  }
+  

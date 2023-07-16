@@ -1,0 +1,101 @@
+.text-container { /* Configurações Texto */
+  margin-left: 10px; /* Ajuste o espaçamento esquerdo conforme necessário */
+  margin-top: 10px; /*Leva o texto para cima */
+  text-align: center; 
+  font-size: 18px;
+  text-indent: 20px; /* Recuo do primeiro linha */
+  text-align: justify; /* Alinhamento justificado */
+  line-height: 1.2; /* Espaçamento entre linhas */
+  text-indent: 0;
+}
+  
+.titulo {
+ font-weight: 600;
+ color: rgba(94, 135, 201, 1);
+ fill: rgba(94, 135, 201, 1);
+ font-size: 19px;
+ margin-left: 0px; /* Ajuste o espaçamento esquerdo conforme necessário */
+ line-height: 0; /* Espaçamento entre linhas */
+}
+
+.text2-container { /* Configurações Texto */
+  margin-left: 10px; /* Ajuste o espaçamento esquerdo conforme necessário */
+  margin-top: 10px; /*Leva o texto para cima */
+  text-align: center; 
+  font-size: 19px;
+  text-indent: 20px; /* Recuo do primeiro linha */
+  text-align: justify; /* Alinhamento justificado */
+  line-height: 1.2; /* Espaçamento entre linhas */
+  text-indent: 0;
+}
+  
+.titulo2 {
+ font-weight: 600;
+ color: rgba(94, 135, 201, 1);
+ fill: rgba(94, 135, 201, 1);
+ font-size: 19px;
+ margin-left: 0px; /* Ajuste o espaçamento esquerdo conforme necessário */
+ line-height: 0; /* Espaçamento entre linhas */
+}
+
+.text3-container { /* Configurações Texto */
+  margin-left: 10px; /* Ajuste o espaçamento esquerdo conforme necessário */
+  margin-top: 10px; /*Leva o texto para cima */
+  text-align: center; 
+  font-size: 18px;
+  text-indent: 20px; /* Recuo do primeiro linha */
+  text-align: justify; /* Alinhamento justificado */
+  line-height: 1.2; /* Espaçamento entre linhas */
+  text-indent: 0;
+}
+  
+.titulo3 {
+ font-weight: 600;
+ color: rgba(94, 135, 201, 1);
+ fill: rgba(94, 135, 201, 1);
+ font-size: 19px;
+ margin-left: 0px; /* Ajuste o espaçamento esquerdo conforme necessário */
+ line-height: 0; /* Espaçamento entre linhas */
+}
+
+.text4-container { /* Configurações Texto */
+  margin-left: 10px; /* Ajuste o espaçamento esquerdo conforme necessário */
+  margin-top: 10px; /*Leva o texto para cima */
+  text-align: center; 
+  font-size: 18px;
+  text-indent: 20px; /* Recuo do primeiro linha */
+  text-align: justify; /* Alinhamento justificado */
+  line-height: 1.2; /* Espaçamento entre linhas */
+  text-indent: 0;
+}
+  
+.titulo4 {
+ font-weight: 600;
+ color: rgba(94, 135, 201, 1);
+ fill: rgba(94, 135, 201, 1);
+ font-size: 19px;
+ margin-left: 0px; /* Ajuste o espaçamento esquerdo conforme necessário */
+ line-height: 0; /* Espaçamento entre linhas */
+}
+
+.text5-container { /* Configurações Texto */
+  margin-left: 10px; /* Ajuste o espaçamento esquerdo conforme necessário */
+  margin-top: 10px; /*Leva o texto para cima */
+  text-align: center; 
+  font-size: 18.4px;
+  text-indent: 20px; /* Recuo do primeiro linha */
+  text-align: justify; /* Alinhamento justificado */
+  line-height: 1.2; /* Espaçamento entre linhas */
+  text-indent: 0;
+}
+.filosofia {
+color: rgba(94, 135, 201, 1);
+}
+.titulo5 {
+ font-weight: 600;
+ color: rgba(94, 135, 201, 1);
+ fill: rgba(94, 135, 201, 1);
+ font-size: 19.5px;
+ margin-left: 0px; /* Ajuste o espaçamento esquerdo conforme necessário */
+ line-height: 0; /* Espaçamento entre linhas */
+}
