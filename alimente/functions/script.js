@@ -9,52 +9,81 @@ var foodImage = document.getElementById('food-image');
 var statusText = document.getElementById('status-text');
 var isHungry = true;
 
+// Variáveis para rastrear o estado do arrastar
+var isDragging = false;
+var touchStartX;
+var touchStartY;
+var offsetX;
+var offsetY;
+
+// Adicionar eventos de toque ou arrastar e soltar aos elementos
 if (isMobile()) {
-  // Adicionar eventos de toque aos elementos
-  personImage.addEventListener('touchstart', touchStart);
-  personImage.addEventListener('touchmove', touchMove);
-  personImage.addEventListener('touchend', touchEnd);
+  foodImage.addEventListener('touchstart', touchStart);
+  foodImage.addEventListener('touchmove', touchMove);
+  foodImage.addEventListener('touchend', touchEnd);
 } else {
-  // Adicionar eventos de arrastar e soltar aos elementos
+  foodImage.addEventListener('dragstart', dragStart);
   personImage.addEventListener('dragover', allowDrop);
   personImage.addEventListener('drop', drop);
 }
 
-// Função de início de toque
+// Função de início de toque ou arrastar
 function touchStart(event) {
+  event.preventDefault();
+
   var touch = event.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
+  offsetX = touch.clientX - foodImage.getBoundingClientRect().left;
+  offsetY = touch.clientY - foodImage.getBoundingClientRect().top;
+  
+  isDragging = true;
 }
 
-// Função de movimento de toque
+// Função de movimento de toque ou arrastar
 function touchMove(event) {
   event.preventDefault();
+
+  if (isDragging) {
+    var touch = event.touches[0];
+    var x = touch.clientX - offsetX;
+    var y = touch.clientY - offsetY;
+    
+    foodImage.style.left = x + 'px';
+    foodImage.style.top = y + 'px';
+  }
 }
 
-// Função de finalização de toque
+// Função de finalização de toque ou arrastar
 function touchEnd(event) {
-  var touch = event.changedTouches[0];
-  var touchEndX = touch.clientX;
-  var touchEndY = touch.clientY;
+  event.preventDefault();
 
-  if (
-    touchEndX >= personImage.offsetLeft &&
-    touchEndX <= personImage.offsetLeft + personImage.offsetWidth &&
-    touchEndY >= personImage.offsetTop &&
-    touchEndY <= personImage.offsetTop + personImage.offsetHeight
-  ) {
-    if (isHungry) {
+  if (isDragging) {
+    isDragging = false;
+
+    var personRect = personImage.getBoundingClientRect();
+    var foodRect = foodImage.getBoundingClientRect();
+
+    if (
+      foodRect.left >= personRect.left &&
+      foodRect.right <= personRect.right &&
+      foodRect.top >= personRect.top &&
+      foodRect.bottom <= personRect.bottom &&
+      isHungry
+    ) {
       personImage.src = 'person-happy.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       foodImage.style.display = 'none';
       isHungry = false;
     } else {
-      statusText.innerHTML = 'A pessoa já está alimentada.';
+      statusText.innerHTML = 'Arraste o hambúrguer até a pessoa para alimentá-la.';
     }
-  } else {
-    statusText.innerHTML = 'Toque na pessoa para alimentá-la.';
   }
+}
+
+// Função de início de arrastar
+function dragStart(event) {
+  event.dataTransfer.setData('text/plain', event.target.id);
 }
 
 // Função de manipulação de permitir soltar
@@ -84,7 +113,7 @@ function drop(event) {
     dropY <= personImageY + personImageHeight
   ) {
     if (isHungry) {
-      personImage.src = 'erguida.png';
+      personImage.src = 'person-happy.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       food.style.display = 'none';
       isHungry = false;
@@ -92,6 +121,6 @@ function drop(event) {
       statusText.innerHTML = 'A pessoa já está alimentada.';
     }
   } else {
-    statusText.innerHTML = 'Arraste a comida até a pessoa para alimentá-la.';
+    statusText.innerHTML = 'Arraste o hambúrguer até a pessoa para alimentá-la.';
   }
 }
