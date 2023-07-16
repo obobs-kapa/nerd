@@ -45,7 +45,7 @@ function touchEnd(event) {
     touchEndY <= personImage.offsetTop + personImage.offsetHeight
   ) {
     if (isHungry) {
-      personImage.src = 'person-happy.png';
+      personImage.src = 'images/erguida.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       foodImage.style.display = 'none';
       isHungry = false;
@@ -94,7 +94,7 @@ function drop(event) {
     dropY <= personImageY + personImageHeight
   ) {
     if (isHungry) {
-      personImage.src = 'erguida.png';
+      personImage.src = 'images/erguida.png';
       statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
       food.style.display = 'none';
       isHungry = false;
