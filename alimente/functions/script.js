@@ -1,64 +1,56 @@
-// Verificar se o acesso está sendo feito por um dispositivo móvel
-function isMobile() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+var personImage = document.getElementById('person-image');
+var foodImage = document.getElementById('food-image');
+var statusText = document.getElementById('status-text');
+var isHungry = true;
+
+// Adicionar eventos de toque aos elementos
+personImage.addEventListener('touchstart', touchStart);
+personImage.addEventListener('touchmove', touchMove);
+personImage.addEventListener('touchend', touchEnd);
+
+// Variáveis para rastrear o estado do toque
+var touchStartX;
+var touchStartY;
+
+// Função de início de toque
+function touchStart(event) {
+  var touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
 }
 
-// Exemplo de uso
-if (isMobile()) {
-  var draggableImage = document.getElementById('food-image');
-  var dropZone = document.getElementById('person-image');
+// Função de movimento de toque
+function touchMove(event) {
+  event.preventDefault();
+}
 
-  // Variáveis para rastrear a posição inicial do toque
-  var startX = 0;
-  var startY = 0;
+// Função de finalização de toque
+function touchEnd(event) {
+  var touch = event.changedTouches[0];
+  var touchEndX = touch.clientX;
+  var touchEndY = touch.clientY;
 
-  // Adicionar eventos de toque para iniciar e parar o movimento
-  draggableImage.addEventListener('touchstart', startDrag);
-  draggableImage.addEventListener('touchend', stopDrag);
+  var rect = personImage.getBoundingClientRect();
+  var personImageX = rect.left;
+  var personImageY = rect.top;
+  var personImageWidth = rect.width;
+  var personImageHeight = rect.height;
 
-  function startDrag(event) {
-    // Impedir que outros eventos de toque ocorram
-    event.preventDefault();
-
-    // Obter as coordenadas do toque inicial
-    var touch = event.touches[0];
-    startX = touch.clientX - draggableImage.offsetLeft;
-    startY = touch.clientY - draggableImage.offsetTop;
-
-    // Adicionar evento de movimento do toque para atualizar a posição da imagem
-    document.addEventListener('touchmove', moveImage);
-  }
-
-  function stopDrag(event) {
-    // Remover evento de movimento do toque
-    document.removeEventListener('touchmove', moveImage);
-
-    // Verificar se a imagem foi solta na zona de destino
-    var dropZoneRect = dropZone.getBoundingClientRect();
-    var imageRect = draggableImage.getBoundingClientRect();
-
-    if (
-      imageRect.left >= dropZoneRect.left &&
-      imageRect.right <= dropZoneRect.right &&
-      imageRect.top >= dropZoneRect.top &&
-      imageRect.bottom <= dropZoneRect.bottom
-    ) {
-      // Ação a ser executada quando a imagem for solta no local correto
-      alert('Imagem solta no local correto!');
+  if (
+    touchEndX >= personImageX &&
+    touchEndX <= personImageX + personImageWidth &&
+    touchEndY >= personImageY &&
+    touchEndY <= personImageY + personImageHeight
+  ) {
+    if (isHungry) {
+      personImage.src = 'erguida.png';
+      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
+      foodImage.style.display = 'none';
+      isHungry = false;
+    } else {
+      statusText.innerHTML = 'A pessoa já está alimentada.';
     }
-  }
-
-  function moveImage(event) {
-    // Impedir que a página role
-    event.preventDefault();
-
-    // Obter as coordenadas do toque atual
-    var touch = event.touches[0];
-    var currentX = touch.clientX - startX;
-    var currentY = touch.clientY - startY;
-
-    // Atualizar a posição da imagem
-    draggableImage.style.left = currentX + 'px';
-    draggableImage.style.top = currentY + 'px';
+  } else {
+    statusText.innerHTML = 'Toque na pessoa para alimentá-la.';
   }
 }
