@@ -5,8 +5,8 @@ function isMobile() {
 
 // Exemplo de uso
 if (isMobile()) {
-  var draggableImage = document.getElementById('draggable-image');
-  var dropZone = document.getElementById('drop-zone');
+  var draggableImage = document.getElementById('food-image');
+  var dropZone = document.getElementById('person-image');
 
   // Variáveis para rastrear a posição inicial do toque
   var startX = 0;
