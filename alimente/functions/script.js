@@ -3,10 +3,10 @@ var foodImage = document.getElementById('food-container');
 var statusText = document.getElementById('status-container');
 var isHungry = true;
 
-  // Adicionar eventos de arrastar e soltar aos elementos
-  personImage.addEventListener('touchstart', allowDrop);
-  personImage.addEventListener('touchmove', allowDrop);
-  personImage.addEventListener('touchend', drop);
+// Adicionar eventos de arrastar e soltar aos elementos
+  foodImage.addEventListener('touchstart', allowDrop);
+  foodImage.addEventListener('touchmove', allowDrop);
+  foodImage.addEventListener('touchend', drop);
 
   // Função de manipulação de permitir soltar
   function allowDrop(event) {
@@ -35,7 +35,7 @@ var isHungry = true;
       dropY <= personImageY + personImageHeight
     ) {
       if (isHungry) {
-        personImage.src = 'images/erguida.png';
+        personImage.src = 'erguida.png';
         statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
         food.style.display = 'none';
         isHungry = false;
