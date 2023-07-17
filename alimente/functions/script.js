@@ -1,38 +1,48 @@
-var food = document.getElementById("food-image");
-var person = document.getElementById("person-image");
+var personImage = document.getElementById('person-container');
+var foodImage = document.getElementById('food-container');
+var statusText = document.getElementById('status-container');
+var isHungry = true;
 
-food.addEventListener("mousedown", function(e) {
-  e.preventDefault();
-  this.style.cursor = "move";
-  this.style.touchAction = "none";
-});
+  // Adicionar eventos de arrastar e soltar aos elementos
+  personImage.addEventListener('touchstart', allowDrop);
+  personImage.addEventListener('touchmove', allowDrop);
+  personImage.addEventListener('touchend', drop);
 
-food.addEventListener("touchstart", function(e) {
-  e.preventDefault();
-  this.style.cursor = "move";
-  this.style.touchAction = "none";
-});
-
-food.addEventListener("mousemove", function(e) {
-  this.style.left = e.clientX - this.offsetWidth / 2 + "px";
-  this.style.top = e.clientY - this.offsetHeight / 2 + "px";
-});
-
-food.addEventListener("touchmove", function(e) {
-  this.style.left = e.touches[0].clientX - this.offsetWidth / 2 + "px";
-  this.style.top = e.touches[0].clientY - this.offsetHeight / 2 + "px";
-});
-
-food.addEventListener("mouseup", function(e) {
-  this.style.cursor = "default";
-});
-
-food.addEventListener("touchend", function(e) {
-  this.style.cursor = "default";
-});
-
-person.addEventListener("click", function(e) {
-  if (food.contains(e.target)) {
-    alert("Você alimentou a pessoa!");
+  // Função de manipulação de permitir soltar
+  function allowDrop(event) {
+    event.preventDefault();
   }
-});
+
+  // Função de manipulação de soltar
+  function drop(event) {
+    event.preventDefault();
+    var foodId = event.dataTransfer.getData('text/plain');
+    var food = document.getElementById(foodId);
+
+    var rect = personImage.getBoundingClientRect();
+    var personImageX = rect.left;
+    var personImageY = rect.top;
+    var personImageWidth = rect.width;
+    var personImageHeight = rect.height;
+
+    var dropX = event.touches[0].clientX;
+    var dropY = event.touches[0].clientY;
+
+    if (
+      dropX >= personImageX &&
+      dropX <= personImageX + personImageWidth &&
+      dropY >= personImageY &&
+      dropY <= personImageY + personImageHeight
+    ) {
+      if (isHungry) {
+        personImage.src = 'images/erguida.png';
+        statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
+        food.style.display = 'none';
+        isHungry = false;
+      } else {
+        statusText.innerHTML = 'A pessoa já está alimentada.';
+      }
+    } else {
+      statusText.innerHTML = 'Arraste a comida até a pessoa para alimentá-la.';
+    }
+  }
