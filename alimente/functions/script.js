@@ -5,18 +5,16 @@ function isMobile() {
 
 // Exemplo de uso
 if (isMobile()) {
-  var personImage = document.getElementById('person-image');
-  var foodImage = document.getElementById('food-image');
-  var statusText = document.getElementById('status-text');
-  var isHungry = true;
+  var draggableImage = document.getElementById('draggable-image');
+  var dropZone = document.getElementById('drop-zone');
 
   // Variáveis para rastrear a posição inicial do toque
   var startX = 0;
   var startY = 0;
 
   // Adicionar eventos de toque para iniciar e parar o movimento
-  foodImage.addEventListener('touchstart', startDrag);
-  foodImage.addEventListener('touchend', stopDrag);
+  draggableImage.addEventListener('touchstart', startDrag);
+  draggableImage.addEventListener('touchend', stopDrag);
 
   function startDrag(event) {
     // Impedir que outros eventos de toque ocorram
@@ -24,38 +22,33 @@ if (isMobile()) {
 
     // Obter as coordenadas do toque inicial
     var touch = event.touches[0];
-    startX = touch.clientX - foodImage.offsetLeft;
-    startY = touch.clientY - foodImage.offsetTop;
+    startX = touch.clientX - draggableImage.offsetLeft;
+    startY = touch.clientY - draggableImage.offsetTop;
 
-    // Adicionar evento de movimento do toque para atualizar a posição da comida
-    document.addEventListener('touchmove', moveFood);
+    // Adicionar evento de movimento do toque para atualizar a posição da imagem
+    document.addEventListener('touchmove', moveImage);
   }
 
   function stopDrag(event) {
     // Remover evento de movimento do toque
-    document.removeEventListener('touchmove', moveFood);
+    document.removeEventListener('touchmove', moveImage);
 
-    // Verificar se a comida foi solta em cima do personagem
-    var personRect = personImage.getBoundingClientRect();
-    var foodRect = foodImage.getBoundingClientRect();
+    // Verificar se a imagem foi solta na zona de destino
+    var dropZoneRect = dropZone.getBoundingClientRect();
+    var imageRect = draggableImage.getBoundingClientRect();
 
     if (
-      foodRect.left >= personRect.left &&
-      foodRect.right <= personRect.right &&
-      foodRect.top >= personRect.top &&
-      foodRect.bottom <= personRect.bottom &&
-      isHungry
+      imageRect.left >= dropZoneRect.left &&
+      imageRect.right <= dropZoneRect.right &&
+      imageRect.top >= dropZoneRect.top &&
+      imageRect.bottom <= dropZoneRect.bottom
     ) {
-      personImage.src = 'images/erguida.png';
-      statusText.innerHTML = 'A pessoa está alimentada. Obrigado!';
-      foodImage.style.display = 'none';
-      isHungry = false;
-    } else {
-      statusText.innerHTML = 'Arraste a comida até a pessoa para alimentá-la.';
+      // Ação a ser executada quando a imagem for solta no local correto
+      alert('Imagem solta no local correto!');
     }
   }
 
-  function moveFood(event) {
+  function moveImage(event) {
     // Impedir que a página role
     event.preventDefault();
 
@@ -64,8 +57,8 @@ if (isMobile()) {
     var currentX = touch.clientX - startX;
     var currentY = touch.clientY - startY;
 
-    // Atualizar a posição da comida
-    foodImage.style.left = currentX + 'px';
-    foodImage.style.top = currentY + 'px';
+    // Atualizar a posição da imagem
+    draggableImage.style.left = currentX + 'px';
+    draggableImage.style.top = currentY + 'px';
   }
 }
